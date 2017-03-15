@@ -1,4 +1,4 @@
-#include <Core.h>
+#include <Core\Core.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,21 +7,21 @@
 
 int main(int argc, char** argv)
 {
-	double a = 7.4;
-	int b = 99;
+	Core::Core* visionCore = new Core::Core("0.bmp");
 
-	printf("a + b = %f\n", Core::MathTest::Add(a, b));
-	printf("a - b = %f\n", Core::MathTest::Subtract(a, b));
-	printf("a * b = %f\n", Core::MathTest::Multiply(a, b));
-	printf("a / b = %f\n", Core::MathTest::Divide(a, b));
+	if (visionCore->load())
+	{
+		cv::Mat image = visionCore->getImage();
 
+		cv::imshow("testImage", image);
 
-	cv::Mat image = Core::MathTest::getImage("0.bmp");
-	cv::imshow("TestImage", image);
-
-	cv::waitKey(0);
-
-	//system("pause");
+		cv::waitKey(0);
+	}
+	else
+	{
+		printf("Something went wrong (maybe the file you specified was not found....)\n\n");
+		system("pause");
+	}
 
 	return 0;
 }
