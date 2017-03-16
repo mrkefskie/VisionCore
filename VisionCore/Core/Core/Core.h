@@ -9,6 +9,8 @@
 
 namespace Core
 {
+	class Loading;
+
 	class Core
 	{
 	public:
@@ -22,12 +24,15 @@ namespace Core
 		bool load();
 
 		cv::Mat getImage();
+		cv::Mat getInput();
+		cv::Mat getOutput();
+
 
 		char* getPath() { return _path; }
 		
-		cv::Mat setInput(cv::Mat* input) { _input = input; }
-		cv::Mat setOutput(cv::Mat* output) { _output = output; }
-
+		void setInput(cv::Mat input) { _input = input; }
+		void setOutput(cv::Mat output) { _output = output; }
+		 
 	private:
 		/* FUNCTIONS */
 
@@ -36,11 +41,9 @@ namespace Core
 		char* _path;
 		cv::Mat _image;
 
-		cv::Mat* _input;
-		cv::Mat* _output;
+		cv::Mat _input;
+		cv::Mat _output;
 
 		Loading* _loading;
-
-		//Loading* _loading;
 	};
 }

@@ -5,7 +5,7 @@ Core::Loading::Loading(Core* core)
 {
 	_core = core;
 
-	_core->setInput(&cv::imread(_core->getPath()));
+	//_core->setInput(cv::imread(_core->getPath()));
 }
 
 Core::Loading::~Loading()
@@ -14,15 +14,19 @@ Core::Loading::~Loading()
 
 bool Core::Loading::loadNewFrame()
 {
-	if (_core->getPath() == "")
+	char* path = _core->getPath();
+
+	if (path == "")
 	{
 		printf("File path is not specified!\n");
 		return false;
 	}
 
-	_core->setInput(&cv::imread(_core->getPath()));
+	cv::Mat img = cv::imread(_core->getPath());
+
+	_core->setInput(img);
 	
-	return false;
+	return true;
 }
 
 bool Core::Loading::checkIfImageIsValid(cv::Mat * img)

@@ -29,3 +29,19 @@ cv::Mat Core::Core::getImage()
 	return _image;
 }
 
+cv::Mat Core::Core::getInput()
+{
+	if (_input.rows == 0 || _input.cols == 0)
+		return cv::Mat(1, 1, 0);
+
+	return _input;
+}
+
+cv::Mat Core::Core::getOutput()
+{
+	if (_output.rows == 0 || _output.cols == 0)
+		return cv::Mat(1, 1, 0);
+
+	return _output;
+}
+

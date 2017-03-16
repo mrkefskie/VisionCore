@@ -4,6 +4,8 @@
 
 namespace Core
 {
+	class Core;
+	
 	class Loading
 	{
 	public:
