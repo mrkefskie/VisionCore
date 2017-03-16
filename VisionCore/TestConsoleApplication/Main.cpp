@@ -30,6 +30,8 @@ void loadImageFromHarddisk(char* path)
 
 	if (errorTriggered == true)
 		printf("Something went wrong (maybe the file you specified was not found....)\n\n");
+
+	delete(visionCore);
 }
 
 void liveImageFeed(int ID)
@@ -50,9 +52,11 @@ int main(int argc, char** argv)
 {
 	//loadImageFromHarddisk("test1.jpg");
 
-	liveImageFeed(1);
+	liveImageFeed(0);
 
-	//system("pause");
 
+
+
+	system("pause");
 	return 0;
 }

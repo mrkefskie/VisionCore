@@ -32,7 +32,13 @@ VisionCore::Core::Core(int cameraID, VisionCore::VCStruct::VideoSettings setting
 
 	_frameLocation = VisionCore::VCEnum::frameLoc::CAMERA;
 
-	_camera->StartCamera();
+	_isCameraConnected = _camera->StartCamera();
+
+	if (!_isCameraConnected)
+	{
+		printf("Initialisation of camera failed!\n");
+		printf("Shutting down the application.\n");
+	}
 }
 
 VisionCore::Core::~Core()
@@ -56,6 +62,12 @@ bool VisionCore::Core::run()
 	{
 		while (1)
 		{
+			if (!_isCameraConnected)
+			{
+				printf("The camera is not initialised or ready to be used!\n");
+				return false;
+			}
+
 			_camera->getNewFrameWithPolling();
 
 			cv::imshow("live feed", _input);

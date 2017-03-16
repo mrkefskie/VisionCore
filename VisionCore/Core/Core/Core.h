@@ -56,6 +56,9 @@ namespace VisionCore
 		double inv_FPS;
 		double FPS;
 #endif
+
+		bool _isCameraConnected;
+
 		int _frameLocation;
 
 		char* _path;
