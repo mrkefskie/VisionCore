@@ -11,14 +11,18 @@ namespace VisionCore
 	class Camera
 	{
 	public:
-		Camera(int id);
+		Camera(Core* core, int id);
 		~Camera();
 
 		bool StartCamera();
 
+		bool getNewFrameWithPolling();
+
 		void setID(int id) { _camID = id; }
 		int getID() { return _camID; }
 	private:
+		Core* _core;
+
 		int _camID;
 
 		cv::VideoCapture* _videoCap;

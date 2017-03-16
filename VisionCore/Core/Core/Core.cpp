@@ -20,7 +20,7 @@ VisionCore::Core::Core(int cameraID)
 {
 	_camID = cameraID;
 
-	_camera = new Camera(cameraID);
+	_camera = new Camera(this, cameraID);
 
 	_frameLocation = VisionCore::VCEnum::frameLoc::CAMERA;
 
@@ -29,11 +29,41 @@ VisionCore::Core::Core(int cameraID)
 
 VisionCore::Core::~Core()
 {
+	delete(_camera);
+	delete(_loading);
+
+	printf("Shutting down the VisionCore\n");
 }
 
 bool VisionCore::Core::load()
 {
 	return _loading->loadNewFrame();
+}
+
+bool VisionCore::Core::run()
+{
+	switch (_frameLocation)
+	{
+	case VisionCore::VCEnum::frameLoc::CAMERA:
+	{
+		while (1)
+		{
+			_camera->getNewFrameWithPolling();
+
+			cv::imshow("live feed", _input);
+
+			if (cv::waitKey(30) >= 0) return true;
+		}
+	}
+	break;
+	case VisionCore::VCEnum::frameLoc::HARDDISK:
+	{
+		return false;
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 cv::Mat VisionCore::Core::getImage()

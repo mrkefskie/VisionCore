@@ -26,6 +26,8 @@ namespace VisionCore
 
 		bool load();
 
+		bool run();
+
 		cv::Mat getImage();
 		cv::Mat getInput();
 		cv::Mat getOutput();

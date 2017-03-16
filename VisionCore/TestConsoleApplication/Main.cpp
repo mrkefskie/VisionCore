@@ -32,9 +32,20 @@ void loadImageFromHarddisk(char* path)
 		printf("Something went wrong (maybe the file you specified was not found....)\n\n");
 }
 
+void liveImageFeed(int ID)
+{
+	VisionCore::Core* visionCore = new VisionCore::Core(ID);
+
+	visionCore->run();
+
+	delete(visionCore);
+}
+
 int main(int argc, char** argv)
 {
-	loadImageFromHarddisk("test1.jpg");
+	//loadImageFromHarddisk("test1.jpg");
+
+	liveImageFeed(1);
 
 	system("pause");
 
