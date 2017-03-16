@@ -142,6 +142,7 @@
     <ClInclude Include="Core\VCEnum\Constants.h" />
     <ClInclude Include="Core\Core.h" />
     <ClInclude Include="Core\Load.h" />
+    <ClInclude Include="Core\VCStruct\CameraData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,10 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <Windows.h>
+
 #include <opencv2\opencv.hpp>
 
 #include "Load.h"
 #include "Camera.h"
+#include "VCStruct\CameraData.h"
 
 namespace VisionCore
 {
@@ -20,7 +23,7 @@ namespace VisionCore
 		//TODO: create support for live video
 		//TODO: create support for live images
 		Core(char* path);
-		Core(int cameraID);
+		Core(int cameraID, VisionCore::VCStruct::VideoSettings settings);
 
 		~Core();
 
@@ -34,7 +37,8 @@ namespace VisionCore
 
 
 		char* getPath() { return _path; }
-		
+		VisionCore::VCStruct::VideoSettings* getVideoSettings() { return _videoSettings; }
+
 		void setInput(cv::Mat input) { _input = input; }
 		void setOutput(cv::Mat output) { _output = output; }
 		 
@@ -43,6 +47,15 @@ namespace VisionCore
 
 
 		/* VARIABLES */
+
+		// Times for FPS calculation
+#ifdef _WINDOWS_
+		LARGE_INTEGER PreviousTime, CurrentTime, ElapsedMicroSeconds;
+		LARGE_INTEGER Frequency;
+
+		double inv_FPS;
+		double FPS;
+#endif
 		int _frameLocation;
 
 		char* _path;
@@ -55,5 +68,6 @@ namespace VisionCore
 		Camera* _camera = nullptr;
 
 		int _camID;
+		VisionCore::VCStruct::VideoSettings* _videoSettings;
 	};
 }

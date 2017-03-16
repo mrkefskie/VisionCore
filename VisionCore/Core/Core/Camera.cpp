@@ -15,11 +15,11 @@ bool VisionCore::Camera::StartCamera()
 {
 	_videoCap = new cv::VideoCapture(_camID);
 
-	_videoCap->set(cv::CAP_PROP_FRAME_WIDTH, 1600);
-	_videoCap->set(cv::CAP_PROP_FRAME_HEIGHT, 900);
-	_videoCap->set(cv::CAP_PROP_FPS, 60);
+	_videoCap->set(cv::CAP_PROP_FRAME_WIDTH, _core->getVideoSettings()->frame_width);
+	_videoCap->set(cv::CAP_PROP_FRAME_HEIGHT, _core->getVideoSettings()->frame_height);
+	_videoCap->set(cv::CAP_PROP_FPS, _core->getVideoSettings()->fps);
 
-	if (!_videoCap->isOpened())
+	if (!_videoCap->isOpened());
 		return false;
 
 	return true;
@@ -29,7 +29,7 @@ bool VisionCore::Camera::getNewFrameWithPolling()
 {
 	cv::Mat img;
 	
-	bool success = _videoCap->read(img);
+	bool success = _videoCap->retrieve(img);
 	if (!success)
 		return false;
 

@@ -16,8 +16,16 @@ VisionCore::Core::Core(char * path)
 	_frameLocation = VisionCore::VCEnum::frameLoc::HARDDISK;
 }
 
-VisionCore::Core::Core(int cameraID)
+VisionCore::Core::Core(int cameraID, VisionCore::VCStruct::VideoSettings settings)
 {
+#ifdef _WINDOWS_
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&PreviousTime);
+	QueryPerformanceCounter(&CurrentTime);
+#endif
+
+	_videoSettings = &settings;
+
 	_camID = cameraID;
 
 	_camera = new Camera(this, cameraID);
@@ -51,6 +59,23 @@ bool VisionCore::Core::run()
 			_camera->getNewFrameWithPolling();
 
 			cv::imshow("live feed", _input);
+
+#ifdef _WINDOWS_
+			QueryPerformanceCounter(&CurrentTime);
+
+			ElapsedMicroSeconds.QuadPart = CurrentTime.QuadPart - PreviousTime.QuadPart;
+
+			ElapsedMicroSeconds.QuadPart *= 1000000;
+			ElapsedMicroSeconds.QuadPart /= Frequency.QuadPart;
+
+			inv_FPS = ElapsedMicroSeconds.QuadPart / 1000000.f;
+
+			FPS = 1 / inv_FPS;
+
+			printf("ElapsedSeconds: %f\tFPS: %f\n", inv_FPS, FPS);
+			
+			PreviousTime.QuadPart = CurrentTime.QuadPart;
+#endif
 
 			if (cv::waitKey(30) >= 0) return true;
 		}
