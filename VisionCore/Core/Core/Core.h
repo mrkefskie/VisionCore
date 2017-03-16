@@ -6,19 +6,22 @@
 #include <opencv2\opencv.hpp>
 
 #include "Load.h"
+#include "Camera.h"
 
-namespace Core
+namespace VisionCore
 {
 	class Loading;
+	class Camera;
 
 	class Core
 	{
 	public:
-		//TODO: create support for photo files
 		//TODO: create support for video files
 		//TODO: create support for live video
 		//TODO: create support for live images
 		Core(char* path);
+		Core(int cameraID);
+
 		~Core();
 
 		bool load();
@@ -38,12 +41,17 @@ namespace Core
 
 
 		/* VARIABLES */
+		int _frameLocation;
+
 		char* _path;
 		cv::Mat _image;
 
 		cv::Mat _input;
 		cv::Mat _output;
 
-		Loading* _loading;
+		Loading* _loading = nullptr;
+		Camera* _camera = nullptr;
+
+		int _camID;
 	};
 }

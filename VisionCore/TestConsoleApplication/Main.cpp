@@ -5,13 +5,12 @@
 
 #include <opencv2\opencv.hpp>
 
-bool errorTriggered;
 
-int main(int argc, char** argv)
+void loadImageFromHarddisk(char* path)
 {
-	errorTriggered = false;
+	bool errorTriggered = false;
 
-	Core::Core* visionCore = new Core::Core("0.bmp");
+	VisionCore::Core* visionCore = new VisionCore::Core(path);
 
 	if (visionCore->load())
 	{
@@ -30,10 +29,14 @@ int main(int argc, char** argv)
 		errorTriggered = true;
 
 	if (errorTriggered == true)
-	{
 		printf("Something went wrong (maybe the file you specified was not found....)\n\n");
-		system("pause");
-	}
+}
+
+int main(int argc, char** argv)
+{
+	loadImageFromHarddisk("test1.jpg");
+
+	system("pause");
 
 	return 0;
 }

@@ -1,18 +1,18 @@
 #include "Load.h"
 #include "Core.h"
 
-Core::Loading::Loading(Core* core)
+VisionCore::Loading::Loading(Core* core)
 {
 	_core = core;
 
 	//_core->setInput(cv::imread(_core->getPath()));
 }
 
-Core::Loading::~Loading()
+VisionCore::Loading::~Loading()
 {
 }
 
-bool Core::Loading::loadNewFrame()
+bool VisionCore::Loading::loadNewFrame()
 {
 	char* path = _core->getPath();
 
@@ -29,7 +29,7 @@ bool Core::Loading::loadNewFrame()
 	return true;
 }
 
-bool Core::Loading::checkIfImageIsValid(cv::Mat * img)
+bool VisionCore::Loading::checkIfImageIsValid(cv::Mat * img)
 {
 	if (img->rows == 0 || img->cols == 0)
 		return true;

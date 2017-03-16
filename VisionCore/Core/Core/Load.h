@@ -2,7 +2,7 @@
 
 #include "Core.h"
 
-namespace Core
+namespace VisionCore
 {
 	class Core;
 	
