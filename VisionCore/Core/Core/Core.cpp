@@ -33,6 +33,7 @@ VisionCore::Core::Core(int cameraID, VisionCore::VCStruct::VideoSettings setting
 	_frameLocation = VisionCore::VCEnum::frameLoc::CAMERA;
 
 	_isCameraConnected = _camera->StartCamera();
+	_saveVideoToHDD = false;
 
 	if (!_isCameraConnected)
 	{
@@ -72,6 +73,9 @@ bool VisionCore::Core::run()
 
 			cv::imshow("live feed", _input);
 
+			if (_saveVideoToHDD)
+				_camera->saveVideo(&_input);
+
 #ifdef _WINDOWS_
 			QueryPerformanceCounter(&CurrentTime);
 
@@ -84,7 +88,7 @@ bool VisionCore::Core::run()
 
 			FPS = 1 / inv_FPS;
 
-			printf("ElapsedSeconds: %f\tFPS: %f\n", inv_FPS, FPS);
+			//printf("ElapsedSeconds: %f\tFPS: %f\n", inv_FPS, FPS);
 			
 			PreviousTime.QuadPart = CurrentTime.QuadPart;
 #endif
@@ -125,5 +129,11 @@ cv::Mat VisionCore::Core::getOutput()
 		return cv::Mat(1, 1, 0);
 
 	return _output;
+}
+
+void VisionCore::Core::setSaveVideoToHDD(bool val)
+{
+	_saveVideoToHDD = val;
+	_camera->openVideoWriter();
 }
 

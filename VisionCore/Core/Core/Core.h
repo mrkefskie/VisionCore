@@ -35,6 +35,7 @@ namespace VisionCore
 		cv::Mat getInput();
 		cv::Mat getOutput();
 
+		bool saveVideoToHDD() { return _saveVideoToHDD; }
 
 		char* getPath() { return _path; }
 		VisionCore::VCStruct::VideoSettings* getVideoSettings() { return _videoSettings; }
@@ -42,6 +43,8 @@ namespace VisionCore
 		void setInput(cv::Mat input) { _input = input; }
 		void setOutput(cv::Mat output) { _output = output; }
 		 
+		void setSaveVideoToHDD(bool val);
+
 	private:
 		/* FUNCTIONS */
 
@@ -58,6 +61,7 @@ namespace VisionCore
 #endif
 
 		bool _isCameraConnected;
+		bool _saveVideoToHDD;
 
 		int _frameLocation;
 
@@ -67,8 +71,8 @@ namespace VisionCore
 		cv::Mat _input;
 		cv::Mat _output;
 
-		Loading* _loading = nullptr;
-		Camera* _camera = nullptr;
+		Loading* _loading;
+		Camera* _camera;
 
 		int _camID;
 		VisionCore::VCStruct::VideoSettings* _videoSettings;

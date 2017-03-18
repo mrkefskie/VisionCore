@@ -9,6 +9,7 @@ namespace VisionCore
 	class Loading
 	{
 	public:
+		Loading();
 		Loading(Core* core);
 		~Loading();
 

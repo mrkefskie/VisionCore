@@ -1,6 +1,10 @@
 #include "Load.h"
 #include "Core.h"
 
+VisionCore::Loading::Loading()
+{
+}
+
 VisionCore::Loading::Loading(Core* core)
 {
 	_core = core;

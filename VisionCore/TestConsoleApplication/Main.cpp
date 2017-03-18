@@ -36,12 +36,14 @@ void loadImageFromHarddisk(char* path)
 
 void liveImageFeed(int ID)
 {
-	VisionCore::VCStruct::VideoSettings videoSettings;
+	VisionCore::VCStruct::VideoSettings videoSettings = VisionCore::VCStruct::VideoSettings();
 	videoSettings.frame_width = 1920;
 	videoSettings.frame_height = 1080;
-	videoSettings.fps = 60;
+	videoSettings.fps = 30;
 
 	VisionCore::Core* visionCore = new VisionCore::Core(ID, videoSettings);
+
+	visionCore->setSaveVideoToHDD(true);
 
 	visionCore->run();
 
@@ -57,6 +59,6 @@ int main(int argc, char** argv)
 
 
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
