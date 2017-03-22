@@ -5,9 +5,23 @@ VisionCore::Loading::Loading()
 {
 }
 
-VisionCore::Loading::Loading(Core* core)
+VisionCore::Loading::Loading(Core* core, bool photo)
 {
 	_core = core;
+
+	_photo = photo;
+
+	if (_photo == false)
+	{
+		char* path = _core->getPath();
+		if (path == "")
+		{
+			printf("File path is not specified!\n");
+			return;
+		}
+
+		_loadVideo = new cv::VideoCapture(path);
+	}
 
 	//_core->setInput(cv::imread(_core->getPath()));
 }
@@ -16,20 +30,43 @@ VisionCore::Loading::~Loading()
 {
 }
 
-bool VisionCore::Loading::loadNewFrame()
+bool VisionCore::Loading::getNewImage()
 {
-	char* path = _core->getPath();
-
-	if (path == "")
+	if (_photo)
 	{
-		printf("File path is not specified!\n");
-		return false;
+		char* path = _core->getPath();
+
+		if (path == "")
+		{
+			printf("File path is not specified!\n");
+			return false;
+		}
+
+		cv::Mat img = cv::imread(_core->getPath());
+
+		_core->setInput(img);
 	}
+	else
+	{
+		cv::Mat img;
 
-	cv::Mat img = cv::imread(_core->getPath());
+		bool success = false;
 
-	_core->setInput(img);
-	
+		try
+		{
+			success = _loadVideo->read(img);
+		}
+		catch (const std::exception&)
+		{
+			printf("Exception");
+			return false;
+		}
+
+		if (!success)
+			return false;
+
+		_core->setInput(img);
+	}
 	return true;
 }
 

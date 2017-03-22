@@ -50,11 +50,42 @@ void liveImageFeed(int ID)
 	delete(visionCore);
 }
 
+void notSoLiveImageFeed(char *path)
+{
+	bool errorTriggered = false;
+
+	VisionCore::Core* visionCore = new VisionCore::Core(path);
+
+	while (1)
+	{
+		if (visionCore->load())
+		{
+			cv::Mat image = visionCore->getInput();
+
+			if (image.rows > 1 && image.cols > 1)
+			{
+				cv::imshow("testImage", image);
+			}
+			else
+				errorTriggered = true;
+		}
+		else
+			errorTriggered = true;
+
+		if (errorTriggered == true)
+			printf("Something went wrong (maybe the file you specified was not found....)\n\n");
+
+		if (cv::waitKey(30) >= 0) return;
+	}
+	
+	delete(visionCore);
+}
+
 int main(int argc, char** argv)
 {
 	//loadImageFromHarddisk("test1.jpg");
-
-	liveImageFeed(0);
+	//liveImageFeed(0);
+	notSoLiveImageFeed("video.avi");
 
 
 

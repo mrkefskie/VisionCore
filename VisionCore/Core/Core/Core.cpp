@@ -11,7 +11,7 @@ VisionCore::Core::Core(char * path)
 
 	_image = NULL;
 
-	_loading = new Loading(this);
+	_loading = new Loading(this, false);
 
 	_frameLocation = VisionCore::VCEnum::frameLoc::HARDDISK;
 }
@@ -52,7 +52,14 @@ VisionCore::Core::~Core()
 
 bool VisionCore::Core::load()
 {
-	return _loading->loadNewFrame();
+	try
+	{
+		return _loading->getNewImage();
+	}
+	catch (std::exception&)
+	{
+		return false;
+	}
 }
 
 bool VisionCore::Core::run()
@@ -70,8 +77,6 @@ bool VisionCore::Core::run()
 			}
 
 			_camera->getNewFrameWithPolling();
-
-			cv::imshow("live feed", _input);
 
 			if (_saveVideoToHDD)
 				_camera->saveVideo(&_input);
@@ -91,7 +96,14 @@ bool VisionCore::Core::run()
 			//printf("ElapsedSeconds: %f\tFPS: %f\n", inv_FPS, FPS);
 			
 			PreviousTime.QuadPart = CurrentTime.QuadPart;
+
+			std::stringstream ss;
+			ss << FPS << " fps";
+
+			cv::putText(_input, ss.str(), cv::Point(10, 20), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(200, 200, 250));
 #endif
+
+			cv::imshow("live feed", _input);
 
 			if (cv::waitKey(30) >= 0) return true;
 		}

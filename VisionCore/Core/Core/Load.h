@@ -10,14 +10,20 @@ namespace VisionCore
 	{
 	public:
 		Loading();
-		Loading(Core* core);
+		Loading(Core* core, bool photo);
 		~Loading();
 
-		bool loadNewFrame();
+		bool getNewFrame();
+
+		bool getNewImage();
 
 	private:
 		/* Funtions */
 		bool checkIfImageIsValid(cv::Mat* img);
+
+		bool _photo;
+
+		cv::VideoCapture* _loadVideo;
 
 		Core* _core;
 	};
