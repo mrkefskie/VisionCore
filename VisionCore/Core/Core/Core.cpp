@@ -7,6 +7,11 @@
 
 VisionCore::Core::Core(char * path)
 {
+#ifdef _WINDOWS_
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&PreviousTime);
+	QueryPerformanceCounter(&CurrentTime);
+#endif
 	_path = path;
 
 	_image = NULL;
@@ -48,6 +53,11 @@ VisionCore::Core::~Core()
 	delete(_loading);
 
 	printf("Shutting down the VisionCore\n");
+}
+
+void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
+{
+	_operators->push_back(operatorType);
 }
 
 bool VisionCore::Core::load()
@@ -111,7 +121,45 @@ bool VisionCore::Core::run()
 	break;
 	case VisionCore::VCEnum::frameLoc::HARDDISK:
 	{
-		return false;
+		while (1)
+		{
+			printf("run\n");
+
+			// Get the frame
+			_loading->getNewImage();
+
+			if (_input.empty())
+			{
+				printf("End of file reached!\n");
+				return true;
+			}
+
+#ifdef _WINDOWS_
+			QueryPerformanceCounter(&CurrentTime);
+
+			ElapsedMicroSeconds.QuadPart = CurrentTime.QuadPart - PreviousTime.QuadPart;
+
+			ElapsedMicroSeconds.QuadPart *= 1000000;
+			ElapsedMicroSeconds.QuadPart /= Frequency.QuadPart;
+
+			inv_FPS = ElapsedMicroSeconds.QuadPart / 1000000.f;
+
+			FPS = 1 / inv_FPS;
+
+			//printf("ElapsedSeconds: %f\tFPS: %f\n", inv_FPS, FPS);
+
+			PreviousTime.QuadPart = CurrentTime.QuadPart;
+
+			std::stringstream ss;
+			ss << FPS << " fps";
+
+			cv::putText(_input, ss.str(), cv::Point(10, 20), cv::FONT_HERSHEY_COMPLEX_SMALL, 0.8, cv::Scalar(200, 200, 250));
+#endif
+
+			cv::imshow("video", _input);
+
+			if (cv::waitKey(30) >= 0) return true;
+		}
 	}
 	break;
 	default:

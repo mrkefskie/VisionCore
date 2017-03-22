@@ -21,6 +21,7 @@ VisionCore::Loading::Loading(Core* core, bool photo)
 		}
 
 		_loadVideo = new cv::VideoCapture(path);
+		_loadVideo->set(CV_CAP_PROP_FPS, 30);
 	}
 
 	//_core->setInput(cv::imread(_core->getPath()));
@@ -50,20 +51,9 @@ bool VisionCore::Loading::getNewImage()
 	{
 		cv::Mat img;
 
-		bool success = false;
+		//success = _loadVideo->read(img);
 
-		try
-		{
-			success = _loadVideo->read(img);
-		}
-		catch (const std::exception&)
-		{
-			printf("Exception");
-			return false;
-		}
-
-		if (!success)
-			return false;
+		_loadVideo->operator>>(img);
 
 		_core->setInput(img);
 	}

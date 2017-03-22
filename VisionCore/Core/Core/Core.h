@@ -10,6 +10,7 @@
 #include "Load.h"
 #include "Camera.h"
 #include "VCStruct\CameraData.h"
+#include "VCEnum\Constants.h"
 
 namespace VisionCore
 {
@@ -19,13 +20,12 @@ namespace VisionCore
 	class Core
 	{
 	public:
-		//TODO: create support for video files
-		//TODO: create support for live video
-		//TODO: create support for live images
 		Core(char* path);
 		Core(int cameraID, VisionCore::VCStruct::VideoSettings settings);
 
 		~Core();
+
+		void addOperator(VisionCore::VCEnum::Operation operatorType);
 
 		bool load();
 
@@ -50,6 +50,9 @@ namespace VisionCore
 
 
 		/* VARIABLES */
+
+		// List for all the operations to be done
+		std::vector<VisionCore::VCEnum::Operation>* _operators;
 
 		// Times for FPS calculation
 #ifdef _WINDOWS_

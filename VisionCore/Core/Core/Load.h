@@ -13,8 +13,6 @@ namespace VisionCore
 		Loading(Core* core, bool photo);
 		~Loading();
 
-		bool getNewFrame();
-
 		bool getNewImage();
 
 	private:
