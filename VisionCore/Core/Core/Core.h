@@ -9,6 +9,9 @@
 
 #include "Load.h"
 #include "Camera.h"
+
+#include "Blurs\GaussianBlur.h"
+
 #include "VCStruct\CameraData.h"
 #include "VCEnum\Constants.h"
 
@@ -52,7 +55,11 @@ namespace VisionCore
 		/* VARIABLES */
 
 		// List for all the operations to be done
-		std::vector<VisionCore::VCEnum::Operation>* _operators;
+		std::vector<VisionCore::VCEnum::Operation> _operators;
+
+		std::vector<VisionCore::Blurs::Gaussian> _gaussianBlurs;
+
+		int _gaussianCount = 0;
 
 		// Times for FPS calculation
 #ifdef _WINDOWS_

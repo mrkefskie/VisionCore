@@ -45,6 +45,8 @@ void liveImageFeed(int ID)
 
 	visionCore->setSaveVideoToHDD(true);
 
+	visionCore->addOperator(VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR);
+
 	visionCore->run();
 
 	delete(visionCore);
@@ -54,6 +56,8 @@ void notSoLiveImageFeed(char *path)
 {
 	VisionCore::Core* visionCore = new VisionCore::Core(path);
 
+	visionCore->addOperator(VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR);
+
 	visionCore->run();
 
 	delete(visionCore);
@@ -62,12 +66,12 @@ void notSoLiveImageFeed(char *path)
 int main(int argc, char** argv)
 {
 	//loadImageFromHarddisk("test1.jpg");
-	//liveImageFeed(0);
-	notSoLiveImageFeed("video.avi");
+	liveImageFeed(0);
+	//notSoLiveImageFeed("video.avi");
 
 
 
 
-	system("pause");
+ 	system("pause");
 	return 0;
 }

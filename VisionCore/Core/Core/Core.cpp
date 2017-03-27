@@ -1,5 +1,7 @@
 #include "VCEnum\Constants.h"
 
+#include "Defines.h"
+
 #include "Core.h"
 #include "Load.h"
 
@@ -57,7 +59,22 @@ VisionCore::Core::~Core()
 
 void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
 {
-	_operators->push_back(operatorType);
+#ifdef DEBUG
+	printf("Adding operation of type: %d\n", operatorType);
+#endif
+	_operators.push_back(operatorType);
+
+	printf("Operators: %d\n", _operators.size());
+
+	switch (operatorType)
+	{
+	case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
+	{
+		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(21, 21), 11, 11));
+		_gaussianCount++;
+	}
+	break;
+	}
 }
 
 bool VisionCore::Core::load()
@@ -85,6 +102,23 @@ bool VisionCore::Core::run()
 				printf("The camera is not initialised or ready to be used!\n");
 				return false;
 			}
+
+			int gaussianCurrentCount = 0;
+
+			printf("Amount of operations: %d\n", _operators.size());
+
+			// Do the processing
+			for (int i = 0; i < _operators.size(); i++)
+			{
+				switch (_operators[i])
+				{
+				case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
+					_output = _gaussianBlurs[gaussianCurrentCount++].proccessImages(_input);
+					break;
+
+				}
+			}
+
 
 			_camera->getNewFrameWithPolling();
 
@@ -114,6 +148,8 @@ bool VisionCore::Core::run()
 #endif
 
 			cv::imshow("live feed", _input);
+			if (_output.rows != 0 || _output.cols != 0)
+				cv::imshow("Blurred image", _output);
 
 			if (cv::waitKey(30) >= 0) return true;
 		}
@@ -123,7 +159,8 @@ bool VisionCore::Core::run()
 	{
 		while (1)
 		{
-			printf("run\n");
+			int gaussianCurrentCount = 0;
+
 
 			// Get the frame
 			_loading->getNewImage();
@@ -132,6 +169,18 @@ bool VisionCore::Core::run()
 			{
 				printf("End of file reached!\n");
 				return true;
+			}
+
+			// Do the processing
+			for (int i = 0; i < _operators.size(); i++)
+			{
+				switch (_operators[i])
+				{
+				case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
+					_output = _gaussianBlurs[gaussianCurrentCount++].proccessImages(_input);
+				break;
+
+				}
 			}
 
 #ifdef _WINDOWS_
