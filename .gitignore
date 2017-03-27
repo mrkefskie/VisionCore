@@ -254,7 +254,19 @@ paket-files/
 
 # Image files
 *.jpg
+*.gif
 *.png
+*.svg
+*.ico
 
 # Video files
+*.wmv
+*.mpg
+*.mpeg
+*.mp4
+*.mov
+*.flv
 *.avi
+*.ogv
+*.ogg
+*.webm
