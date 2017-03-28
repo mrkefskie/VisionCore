@@ -45,8 +45,9 @@ void liveImageFeed(int ID)
 
 	visionCore->setSaveVideoToHDD(true);
 
-	visionCore->addOperator(VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR);
-
+	//visionCore->addOperator(VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR);
+	visionCore->addOperator(VisionCore::VCEnum::Operation::FILTER_AVERAGE);
+		
 	visionCore->run();
 
 	delete(visionCore);

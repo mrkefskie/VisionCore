@@ -71,9 +71,14 @@ void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
 	case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
 	{
 		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(21, 21), 11, 11));
-		_gaussianCount++;
+		_gaussianBlurCount++;
 	}
 	break;
+	case VisionCore::VCEnum::Operation::FILTER_AVERAGE:
+	{
+		_averageBlurs.push_back(VisionCore::Blurs::Average(cv::Size(21, 21)));
+		_averageBlurCount++;
+	}
 	}
 }
 
@@ -103,7 +108,8 @@ bool VisionCore::Core::run()
 				return false;
 			}
 
-			int gaussianCurrentCount = 0;
+			int gaussianBlurCurrentCount = 0;
+			int averageBlurCurrentCount = 0;
 
 			printf("Amount of operations: %d\n", _operators.size());
 
@@ -113,9 +119,11 @@ bool VisionCore::Core::run()
 				switch (_operators[i])
 				{
 				case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
-					_output = _gaussianBlurs[gaussianCurrentCount++].proccessImages(_input);
+					_output = _gaussianBlurs[gaussianBlurCurrentCount++].proccessImage(_input);
 					break;
-
+				case VisionCore::VCEnum::Operation::FILTER_AVERAGE:
+					_output = _averageBlurs[averageBlurCurrentCount++].processImage(_input);
+					break;
 				}
 			}
 
@@ -177,7 +185,7 @@ bool VisionCore::Core::run()
 				switch (_operators[i])
 				{
 				case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
-					_output = _gaussianBlurs[gaussianCurrentCount++].proccessImages(_input);
+					_output = _gaussianBlurs[gaussianCurrentCount++].proccessImage(_input);
 				break;
 
 				}

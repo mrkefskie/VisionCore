@@ -11,6 +11,7 @@
 #include "Camera.h"
 
 #include "Blurs\GaussianBlur.h"
+#include "Blurs\Average.h"
 
 #include "VCStruct\CameraData.h"
 #include "VCEnum\Constants.h"
@@ -58,8 +59,10 @@ namespace VisionCore
 		std::vector<VisionCore::VCEnum::Operation> _operators;
 
 		std::vector<VisionCore::Blurs::Gaussian> _gaussianBlurs;
+		std::vector<VisionCore::Blurs::Average> _averageBlurs;
 
-		int _gaussianCount = 0;
+		int _gaussianBlurCount = 0;
+		int _averageBlurCount = 0;
 
 		// Times for FPS calculation
 #ifdef _WINDOWS_

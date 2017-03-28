@@ -9,12 +9,16 @@ namespace VisionCore
 		class Gaussian
 		{
 		public:
-			Gaussian(cv::Size kSize, double sigmaX);
-			Gaussian(cv::Size kSize, double sigmaX, double sigmaY);
-			Gaussian(cv::Size kSize, double sigmaX, double sigmaY, int borderType);
-			~Gaussian();
+			Gaussian(cv::Size kSize, double sigmaX) { init(kSize, sigmaX, 0.f, cv::BorderTypes::BORDER_DEFAULT); }
+			Gaussian(cv::Size kSize, double sigmaX, double sigmaY) { init(kSize, sigmaX, sigmaY, cv::BorderTypes::BORDER_DEFAULT); }
+			Gaussian(cv::Size kSize, double sigmaX, double sigmaY, int borderType) { init(kSize, sigmaX, sigmaY, borderType); }
 
-			cv::Mat proccessImages(cv::Mat input);
+			cv::Mat proccessImage(cv::Mat input)
+			{
+				cv::Mat output;
+				cv::GaussianBlur(input, output, _kSize, _sigmaX, _sigmaY, _borderType);
+				return output;
+			}
 			
 			cv::Size getKSize() { return _kSize; }
 			double getSigmaX() { return _sigmaX; }
@@ -27,7 +31,7 @@ namespace VisionCore
 			void setBorderType(int borderType) { _borderType = borderType; }
 
 		private:
-			void init(cv::Size kSize, double sigmaX, double sigmaY, int borderType);
+			void init(cv::Size kSize, double sigmaX, double sigmaY, int borderType) { _kSize = kSize; _sigmaX = sigmaX; _sigmaY = sigmaY; _borderType = borderType; }
 
 			cv::Size _kSize;
 			double _sigmaX;

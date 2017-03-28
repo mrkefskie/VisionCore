@@ -42,6 +42,9 @@
     <ClInclude Include="Core\Blurs\GaussianBlur.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Blurs\Average.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Core.cpp">
@@ -51,9 +54,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Blurs\GaussianBlur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
