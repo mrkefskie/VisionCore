@@ -39,10 +39,16 @@
     <ClInclude Include="Core\Defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Blurs\GaussianBlur.h">
+    <ClInclude Include="Core\Blurs\Average.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Blurs\Average.h">
+    <ClInclude Include="Core\Blurs\Median.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Blurs\Bilateral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Blurs\Gaussian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

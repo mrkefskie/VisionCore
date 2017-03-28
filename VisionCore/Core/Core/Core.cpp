@@ -79,6 +79,22 @@ void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
 		_averageBlurs.push_back(VisionCore::Blurs::Average(cv::Size(21, 21)));
 		_averageBlurCount++;
 	}
+	break;
+	case VisionCore::VCEnum::Operation::FILTER_MEDIAN_BLUR:
+	{
+		_medianBlurs.push_back(VisionCore::Blurs::Median(21));
+		_medianBlurCount++;
+	}
+	break;
+	case VisionCore::VCEnum::Operation::FILTER_BILATERLAL:
+	{
+		_bilateralBlurs.push_back(VisionCore::Blurs::Bilateral(3, 1, 1));
+		_bilateralBlurCount++;
+	}
+	break;
+	default:
+		printf("Dafuq?\n");
+		break;
 	}
 }
 
@@ -108,8 +124,12 @@ bool VisionCore::Core::run()
 				return false;
 			}
 
+			_camera->getNewFrameWithPolling();
+
 			int gaussianBlurCurrentCount = 0;
 			int averageBlurCurrentCount = 0;
+			int medianBlurCurrentCount = 0;
+			int bilateralBlurCurrentCount = 0;
 
 			printf("Amount of operations: %d\n", _operators.size());
 
@@ -124,11 +144,17 @@ bool VisionCore::Core::run()
 				case VisionCore::VCEnum::Operation::FILTER_AVERAGE:
 					_output = _averageBlurs[averageBlurCurrentCount++].processImage(_input);
 					break;
+				case VisionCore::VCEnum::Operation::FILTER_MEDIAN_BLUR:
+					_output = _medianBlurs[medianBlurCurrentCount++].processImage(_input);
+					break;
+				case VisionCore::VCEnum::Operation::FILTER_BILATERLAL:
+					_output = _bilateralBlurs[bilateralBlurCurrentCount++].processImage(_input);
+					break;
+				default:
+					printf("This should never happen!\n");
+					break;
 				}
 			}
-
-
-			_camera->getNewFrameWithPolling();
 
 			if (_saveVideoToHDD)
 				_camera->saveVideo(&_input);

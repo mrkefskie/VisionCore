@@ -139,7 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Blurs\Average.h" />
-    <ClInclude Include="Core\Blurs\GaussianBlur.h" />
+    <ClInclude Include="Core\Blurs\Bilateral.h" />
+    <ClInclude Include="Core\Blurs\Gaussian.h" />
+    <ClInclude Include="Core\Blurs\Median.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\Defines.h" />
     <ClInclude Include="Core\VCEnum\Constants.h" />
