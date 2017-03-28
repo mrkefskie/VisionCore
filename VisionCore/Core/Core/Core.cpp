@@ -61,16 +61,16 @@ void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
 {
 #ifdef DEBUG
 	printf("Adding operation of type: %d\n", operatorType);
+	printf("Operators: %d\n", _operators.size());
 #endif
 	_operators.push_back(operatorType);
 
-	printf("Operators: %d\n", _operators.size());
 
 	switch (operatorType)
 	{
 	case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
 	{
-		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(21, 21), 11, 11));
+		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(11, 11), 11, 11));
 		_gaussianBlurCount++;
 	}
 	break;
@@ -130,8 +130,6 @@ bool VisionCore::Core::run()
 			int averageBlurCurrentCount = 0;
 			int medianBlurCurrentCount = 0;
 			int bilateralBlurCurrentCount = 0;
-
-			printf("Amount of operations: %d\n", _operators.size());
 
 			// Do the processing
 			for (int i = 0; i < _operators.size(); i++)
