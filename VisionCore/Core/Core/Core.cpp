@@ -70,7 +70,8 @@ void VisionCore::Core::addOperator(VisionCore::VCEnum::Operation operatorType)
 	{
 	case VisionCore::VCEnum::Operation::FILTER_GAUSSIAN_BLUR:
 	{
-		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(11, 11), 11, 11));
+		_gaussianBlurs.push_back(VisionCore::Blurs::Gaussian(cv::Size(21, 21), 11, 11));
+		_gaussianBlurs[0].useCuda();
 		_gaussianBlurCount++;
 	}
 	break;
